@@ -1,9 +1,12 @@
 from tkinter import *
 
+def newLabel():
+    labels = len(sidebar.winfo_children())
+    newLabel = Label(sidebar, text=str(labels))
+    newLabel.grid(column=0, row=labels)
+
 root = Tk()
-
 root.title("Goalie Tracker")
-
 # Create root window size of screen
 root.geometry("{0}x{1}".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 
@@ -18,7 +21,7 @@ main.grid(row=0, column=1, columnspan=4, sticky=E)
 main.place(relx=0.2, relwidth=0.8, relheight=1)
 
 # Create new button
-newBtn = Button(main, text="New")
+newBtn = Button(main, text="New", command=newLabel)
 newBtn.grid(row=0, column=0)
 
 root.mainloop()
