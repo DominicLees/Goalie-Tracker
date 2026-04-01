@@ -1,12 +1,23 @@
 from tkinter import *
 
-def newGame():
-    name = newGameTextbox.get()
+def newGame(name: str):
     if len(name) == 0:
         return
     btns = len(sidebar.winfo_children())
     newBtn = Button(sidebar, text=name, command=lambda: print(name))
     newBtn.grid(column=0, row=btns)
+
+def openNewGameWindow():
+    win = Toplevel()
+    win.wm_title("New Game")
+
+    # Create text box for new game
+    newGameTextbox = Entry(win)
+    newGameTextbox.grid(row=0, column=0)
+
+    # Create submit button
+    submit = Button(win, text="Submit", command=lambda: [newGame(newGameTextbox.get()), win.destroy()])
+    submit.grid(row=0, column=1)
 
 root = Tk()
 root.title("Goalie Tracker")
@@ -23,12 +34,8 @@ main = Frame(root)
 main.grid(row=0, column=1, columnspan=4)
 main.place(relx=0.2, relwidth=0.8, relheight=1)
 
-# Create text box for new game
-newGameTextbox = Entry(main)
-newGameTextbox.grid(row=0, column=1)
-
 # Create new button
-newGameBtn = Button(main, text="New", command=newGame)
+newGameBtn = Button(main, text="New", command=openNewGameWindow)
 newGameBtn.grid(row=0, column=0)
 
 root.mainloop()
