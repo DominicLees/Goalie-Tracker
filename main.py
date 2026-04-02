@@ -6,7 +6,6 @@ def newGame(name: str):
     btns = len(sidebar.winfo_children())
     newBtn = Button(sidebar, text=name, command=lambda: print(name))
     newBtn.grid(column=0, row=btns)
-    newBtn.place(relwidth=1)
 
 def openNewGameWindow():
     win = Toplevel()
@@ -15,6 +14,7 @@ def openNewGameWindow():
     # Create text box for new game
     newGameTextbox = Entry(win)
     newGameTextbox.grid(row=0, column=0)
+    newGameTextbox.bind("<Return>", lambda self: [newGame(newGameTextbox.get()), win.destroy()])
     newGameTextbox.focus()
 
     # Create submit button
@@ -36,10 +36,12 @@ main = Frame(root)
 main.grid(row=0, column=1, columnspan=4)
 main.place(relx=0.2, relwidth=0.8, relheight=1)
 
+# Create menu bar
 menubar = Menu(root)
 file = Menu(menubar, tearoff=0)
 menubar.add_cascade(label ='File', menu=file)
-file.add_command(label ='New Game', command=openNewGameWindow)
+file.add_command(label ='New Game', accelerator="Cmd+N", command=openNewGameWindow)
+root.bind("<Command-n>", lambda self: openNewGameWindow())
 root.config(menu = menubar)
 
 root.mainloop()
