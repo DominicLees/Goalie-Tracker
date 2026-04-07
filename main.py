@@ -1,20 +1,6 @@
 from tkinter import *
-from typing import Callable
 from components.sidebar import Sidebar
-
-def openNewGameWindow(cb: Callable[[str], None]):
-    win = Toplevel()
-    win.wm_title("New Game")
-
-    # Create text box for new game
-    newGameTextbox = Entry(win)
-    newGameTextbox.grid(row=0, column=0)
-    newGameTextbox.bind("<Return>", lambda self: [cb(newGameTextbox.get()), win.destroy()])
-    newGameTextbox.focus()
-
-    # Create submit button
-    submit = Button(win, text="Submit", command=lambda: [cb(newGameTextbox.get()), win.destroy()])
-    submit.grid(row=0, column=1)
+from components.newGameWindow import NewGameWindow
 
 root = Tk()
 root.title("Goalie Tracker")
@@ -35,8 +21,8 @@ main.place(relx=0.2, relwidth=0.8, relheight=1)
 menubar = Menu(root)
 file = Menu(menubar, tearoff=0)
 menubar.add_cascade(label ='File', menu=file)
-file.add_command(label ='New Game', accelerator="Cmd+N", command=lambda: openNewGameWindow(sidebar.newGame))
-root.bind("<Command-n>", lambda self: openNewGameWindow(sidebar.newGame))
+file.add_command(label ='New Game', accelerator="Cmd+N", command=lambda: NewGameWindow(sidebar.newGame))
+root.bind("<Command-n>", lambda self: NewGameWindow(sidebar.newGame))
 root.config(menu = menubar)
 
 root.mainloop()
