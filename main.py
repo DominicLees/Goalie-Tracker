@@ -1,24 +1,19 @@
 from tkinter import *
+from typing import Callable
+from components.sidebar import Sidebar
 
-def newGame(name: str):
-    if len(name) == 0:
-        return
-    btns = len(sidebar.winfo_children())
-    newBtn = Button(sidebar, text=name, command=lambda: print(name))
-    newBtn.grid(column=0, row=btns)
-
-def openNewGameWindow():
+def openNewGameWindow(cb: Callable[[str], None]):
     win = Toplevel()
     win.wm_title("New Game")
 
     # Create text box for new game
     newGameTextbox = Entry(win)
     newGameTextbox.grid(row=0, column=0)
-    newGameTextbox.bind("<Return>", lambda self: [newGame(newGameTextbox.get()), win.destroy()])
+    newGameTextbox.bind("<Return>", lambda self: [cb(newGameTextbox.get()), win.destroy()])
     newGameTextbox.focus()
 
     # Create submit button
-    submit = Button(win, text="Submit", command=lambda: [newGame(newGameTextbox.get()), win.destroy()])
+    submit = Button(win, text="Submit", command=lambda: [cb(newGameTextbox.get()), win.destroy()])
     submit.grid(row=0, column=1)
 
 root = Tk()
@@ -27,7 +22,7 @@ root.title("Goalie Tracker")
 root.geometry("{0}x{1}".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 
 # Create sidebar
-sidebar = Frame(root, highlightthickness=1, highlightbackground="black")
+sidebar = Sidebar(root, highlightthickness=1, highlightbackground="black")
 sidebar.grid(row=0, column=0)
 sidebar.place(relwidth=0.2, relheight=1)
 
@@ -40,8 +35,8 @@ main.place(relx=0.2, relwidth=0.8, relheight=1)
 menubar = Menu(root)
 file = Menu(menubar, tearoff=0)
 menubar.add_cascade(label ='File', menu=file)
-file.add_command(label ='New Game', accelerator="Cmd+N", command=openNewGameWindow)
-root.bind("<Command-n>", lambda self: openNewGameWindow())
+file.add_command(label ='New Game', accelerator="Cmd+N", command=lambda: openNewGameWindow(sidebar.newGame))
+root.bind("<Command-n>", lambda self: openNewGameWindow(sidebar.newGame))
 root.config(menu = menubar)
 
 root.mainloop()
