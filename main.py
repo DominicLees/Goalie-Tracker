@@ -2,9 +2,10 @@ from tkinter import *
 from components.sidebar import Sidebar
 from components.newGameWindow import NewGameWindow
 
+# Create root
 root = Tk()
 root.title("Goalie Tracker")
-# Create root window size of screen
+# Make root window size of screen
 root.geometry("{0}x{1}".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 
 # Create sidebar
@@ -20,8 +21,8 @@ main.place(relx=0.2, relwidth=0.8, relheight=1)
 # Create menu bar
 menubar = Menu(root)
 file = Menu(menubar, tearoff=0)
-menubar.add_cascade(label ='File', menu=file)
-file.add_command(label ='New Game', accelerator="Cmd+N", command=lambda: NewGameWindow(sidebar.newGame))
+menubar.add_cascade(label ="File", menu=file)
+file.add_command(label ="New Game", accelerator="Cmd+N", command=lambda: NewGameWindow(sidebar.newGame))
 root.bind("<Command-n>", lambda self: NewGameWindow(sidebar.newGame))
 root.config(menu = menubar)
 
