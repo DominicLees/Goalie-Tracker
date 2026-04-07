@@ -1,6 +1,7 @@
 from tkinter import *
 from components.sidebar import Sidebar
 from components.newGameWindow import NewGameWindow
+from components.main import Main
 
 # Create root
 root = Tk()
@@ -14,9 +15,10 @@ sidebar.grid(row=0, column=0)
 sidebar.place(relwidth=0.2, relheight=1)
 
 # Create main area
-main = Frame(root)
+main = Main(root)
 main.grid(row=0, column=1, columnspan=4)
 main.place(relx=0.2, relwidth=0.8, relheight=1)
+sidebar.main = main
 
 # Create menu bar
 menubar = Menu(root)
