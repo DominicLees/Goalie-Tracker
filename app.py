@@ -1,7 +1,5 @@
 from tkinter import *
-from components.sidebar import Sidebar
-from components.newGameWindow import NewGameWindow
-from components.main import Main
+from components import *
 
 # Create root
 root = Tk()
