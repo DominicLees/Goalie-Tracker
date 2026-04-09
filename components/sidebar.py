@@ -16,7 +16,7 @@ class Sidebar(Frame):
         # Save to db
         db = sqlite3.connect("data")
         cu = db.cursor()
-        cu.execute("INSERT INTO Games(name) VALUES (?)", (name,))
+        cu.execute("INSERT INTO Games(name, shots) VALUES (?, 0)", (name,))
         cu.close()
         db.commit()
         db.close()
