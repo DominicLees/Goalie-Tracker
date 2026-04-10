@@ -1,18 +1,12 @@
 from tkinter import Button, Entry, Frame, Label
-import sqlite3
+from utils.db import *
 
 class Main(Frame):
     output: Label | None = None
 
     def openGame(self, name: str):
         # Retrieve data from db
-        db = sqlite3.connect("data")
-        cu = db.cursor()
-        cu.execute("Select * FROM Games WHERE name = ?", (name,))
-        game = cu.fetchone()
-        cu.close()
-        db.commit()
-        db.close()
+        game = getGame(name)
 
         # Clear main area
         for child in self.winfo_children():
@@ -26,16 +20,11 @@ class Main(Frame):
         shots.insert(0, game[1])
         shots.grid(row=1, column=1)
 
-        save = Button(self, text="Save", command=lambda: self.updateGame(name, shots.get()))
+        save = Button(self, text="Save", command=lambda: self.saveGame(name, shots.get()))
         save.grid(row=2)
 
-    def updateGame(self, name: str, shots: str):
-        db = sqlite3.connect("data")
-        cu = db.cursor()
-        cu.execute("UPDATE Games SET shots = ? WHERE name = ?", (shots, name))
-        cu.close()
-        db.commit()
-        db.close()
+    def saveGame(self, name: str, shots: str):
+        updateGame("UPDATE Games SET shots = ? WHERE name = ?", (shots, name))
         self.setOutputMsg("Game updated successfully")
 
     def setOutputMsg(self, msg: str):

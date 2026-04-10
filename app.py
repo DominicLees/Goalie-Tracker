@@ -1,6 +1,6 @@
 from tkinter import *
 from components import *
-import sqlite3
+from utils.db import *
 
 # Create root
 root = Tk()
@@ -27,14 +27,8 @@ file.add_command(label ="New Game", accelerator="Cmd+N", command=lambda: NewGame
 root.bind("<Command-n>", lambda self: NewGameWindow(sidebar.newGame))
 root.config(menu = menubar)
 
-# Create database connection
-db = sqlite3.connect("data")
-cu = db.cursor()
-cu.execute("CREATE TABLE IF NOT EXISTS Games(name, shots)")
-for game in cu.execute("SELECT name FROM Games"):
+# Populate sidebar
+for game in getAllGames("name"):
     sidebar.createGameButton(game[0])
-cu.close()
-db.commit()
-db.close()
 
 root.mainloop()
