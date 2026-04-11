@@ -1,6 +1,6 @@
 from tkinter import Button, Frame
 from components.main import Main
-import sqlite3
+from utils.db import *
 
 class Sidebar(Frame):
     main: Main
@@ -13,13 +13,12 @@ class Sidebar(Frame):
     def newGame(self, name: str):
         if len(name) == 0:
             return
+        
         # Save to db
-        db = sqlite3.connect("data")
-        cu = db.cursor()
-        cu.execute("INSERT INTO Games(name, shots) VALUES (?, 0)", (name,))
-        cu.close()
-        db.commit()
-        db.close()
-
+        success = insertNewGame(name)
+        if not success:
+            return
+        
         # Create new sidebar button
         self.createGameButton(name)
+        self.main.openGame(name)

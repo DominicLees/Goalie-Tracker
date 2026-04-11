@@ -13,6 +13,16 @@ def getGame(name: str):
     cu.execute("Select * FROM Games WHERE name = ?", (name,))
     return cu.fetchone()
 
+def insertNewGame(name: str) -> bool:
+    if getGame(name) != None:
+        return False
+    try:
+        cu.execute("INSERT INTO Games(name, shots) VALUES (?, 0)", (name,))
+        db.commit()
+        return True
+    except:
+        return False
+
 def updateGame(query: str, params: Tuple[str]):
     cu.execute(query, params)
     db.commit()
