@@ -11,7 +11,7 @@ cu.execute("""CREATE TABLE IF NOT EXISTS Games(
 db.commit()
 
 def getAllGames(fields="*"):
-    return cu.execute("SELECT {0} FROM Games".format(fields))
+    return cu.execute("SELECT {0} FROM Games".format(fields)).fetchall()
 
 def getGame(name: str) -> Game | None:
     cu.execute("Select * FROM Games WHERE name = ?", (name,))

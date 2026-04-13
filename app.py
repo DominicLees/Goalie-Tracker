@@ -19,8 +19,12 @@ sidebar.grid(row=0, column=0)
 sidebar.place(relwidth=0.2, relheight=1)
 sidebar.main = main
 # Populate sidebar
-for game in getAllGames("name"):
+games = getAllGames("name")
+for game in games:
     sidebar.createGameButton(game[0])
+# Open first game in db
+if (len(games) > 0):
+    main.openGame(games[0][0])
 
 # Create menu bar
 menubar = Menu(root)
