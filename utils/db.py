@@ -23,6 +23,10 @@ def insertNewGame(name: str) -> bool:
     except:
         return False
 
-def updateGame(query: str, params: Tuple[str]):
-    cu.execute(query, params)
-    db.commit()
+def updateGame(query: str, params: Tuple[str]) -> bool:
+    try:
+        cu.execute(query, params)
+        db.commit()
+        return True
+    except:
+        return False

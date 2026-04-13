@@ -24,8 +24,11 @@ class Main(Frame):
         save.grid(row=2)
 
     def saveGame(self, name: str, shots: str):
-        updateGame("UPDATE Games SET shots = ? WHERE name = ?", (shots, name))
-        self.setOutputMsg("Game updated successfully")
+        success = updateGame("UPDATE Games SET shots = ? WHERE name = ?", (shots, name))
+        if success:
+            self.setOutputMsg("Game updated successfully")
+        else:
+            self.setOutputMsg("Failed to update game")
 
     def setOutputMsg(self, msg: str):
         if self.output == None:
