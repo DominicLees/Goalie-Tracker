@@ -46,7 +46,9 @@ class Main(Frame):
         save = Button(self, text="Save", command=self.saveGame)
         save.grid(row=3)
 
-        # TODO: Create reset button
+        # Create reset button
+        reset = Button(self, text="Reset", command=lambda: self.openGame(name))
+        reset.grid(row=3, column=1)
 
     def saveGame(self):
         if self.game == None:
