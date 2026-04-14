@@ -77,7 +77,7 @@ class Main(Frame):
             return True
         try:
             shots = int(newValue)
-            if shots >= 0:
+            if shots >= 0 and shots < 1000:
                 self.game.shots = shots
                 self.calcSaves()
                 return True
@@ -90,7 +90,7 @@ class Main(Frame):
             return True
         try:
             goals = int(newValue)
-            if goals >= 0:
+            if goals >= 0 and goals < 1000:
                 self.game.goals = goals
                 self.calcSaves()
                 return True
