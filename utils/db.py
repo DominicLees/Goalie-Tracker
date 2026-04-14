@@ -1,12 +1,13 @@
 import sqlite3
-from typing import Tuple
 from entities.game import Game
 
+# Create database file if it does not exist
 db = sqlite3.connect("data")
 cu = db.cursor()
 cu.execute("""CREATE TABLE IF NOT EXISTS Games(
     name, 
-    shots DEFAULT 0
+    shots DEFAULT 0,
+    goals DEFAULT 0
 )""")
 db.commit()
 
@@ -24,17 +25,20 @@ def insertNewGame(name: str) -> bool:
     if getGame(name) != None:
         return False
     try:
-        cu.execute("INSERT INTO Games(name, shots) VALUES (?, 0)", (name,))
-        db.commit()
-        return True
-    except:
-        return False
-
-def updateGame(game: Game) -> bool:
-    try:
-        cu.execute("UPDATE Games SET shots = ? WHERE name = ?", (game.shots, game.name))
+        cu.execute("INSERT INTO Games(name) VALUES (?)", (name,))
         db.commit()
         return True
     except Exception as e:
         print(e)
         return False
+
+def updateGame(game: Game) -> bool:
+    try:
+        cu.execute("UPDATE Games SET shots = ?, goals = ? WHERE name = ?", (game.shots, game.goals, game.name))
+        db.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False
+    
+# TODO: add the ability to rename games
