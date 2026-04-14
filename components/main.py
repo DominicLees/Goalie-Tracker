@@ -53,8 +53,6 @@ class Main(Frame):
     def saveGame(self):
         if self.game == None:
             return
-        # Update game instance
-        self.game.shots = int(self.shots.get())
         # Save game data to db
         success = updateGame(self.game)
         if success:
@@ -72,9 +70,11 @@ class Main(Frame):
     def calcSaves(self):
         saves = int(self.game.shots - self.game.goals)
         self.saves.configure(text=str(saves))
-        self.savePct.configure(text=f"{saves / self.game.shots:.0%}")
+        self.savePct.configure(text=f"{saves / self.game.shots:.3f}")
 
     def validateShots(self, newValue: str) -> bool:
+        if newValue == "":
+            return True
         try:
             shots = int(newValue)
             if shots >= 0:
@@ -86,6 +86,8 @@ class Main(Frame):
         return False
     
     def validateGoals(self, newValue: str) -> bool:
+        if newValue == "":
+            return True
         try:
             goals = int(newValue)
             if goals >= 0:
