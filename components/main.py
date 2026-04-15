@@ -36,7 +36,8 @@ class Main(Frame):
         Label(self, text="Save percentage: ").grid(row=2, column=2)
         self.savePct = Label(self, text="0%")
         self.savePct.grid(row=2, column=3)
-        self.calcSaves()
+        if self.game.goals > 0:
+            self.calcSaves()
         
         # Add validation commands
         self.shots.configure(validatecommand=(self.register(self.validateShots), "%P"))
