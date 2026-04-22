@@ -18,3 +18,11 @@ class Game:
 
     def __str__(self):
         return self.name
+    
+    def getSaves(self) -> int:
+        return self.shots - self.goals
+    
+    def getSavePct(self) -> float:
+        if self.shots == 0:
+            return 0
+        return (self.shots - self.goals) / self.shots

@@ -84,10 +84,8 @@ class Main(Frame):
 
     def calcSaves(self):
         """Updates the save count and save percentage labels"""
-        # TODO: Move save and savePct calc to methods of game class
-        saves = int(self.game.shots - self.game.goals)
-        self.saves.configure(text=str(saves))
-        self.savePct.configure(text=f"{saves / self.game.shots:.3f}")
+        self.saves.configure(text=str(self.game.getSaves()))
+        self.savePct.configure(text=f"{self.game.getSavePct():.3f}")
 
     def validateShots(self, newValue: str) -> bool:
         """Validate command for shots against entry
