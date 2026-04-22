@@ -1,10 +1,11 @@
-from tkinter import Button, Entry, Frame, Label
+from tkinter import Button, Entry, Frame, Label, Menu
 from utils.db import *
 
 class Main(Frame):
     """The main frame that contains the form to modify game data. Displayed to the right of the sidebar."""
     
     output: Label | None = None
+    fileMenu: Menu
 
     def openGame(self, name: str):
         """Opens the edit game screen in the main area of the window
@@ -58,6 +59,9 @@ class Main(Frame):
         # Create reset button
         reset = Button(self, text="Reset", command=lambda: self.openGame(name))
         reset.grid(row=3, column=1)
+
+        # Enable menu bar
+        self.fileMenu.entryconfig("Rename Game", state="active")
 
     def saveGame(self):
         """Saves the currently opened game to the db"""

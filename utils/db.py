@@ -11,6 +11,7 @@ cu.execute("""CREATE TABLE IF NOT EXISTS Games(
 )""")
 db.commit()
 
+# TODO: docstrings
 def getAllGames(fields="*"):
     return cu.execute("SELECT {0} FROM Games".format(fields)).fetchall()
 
@@ -41,4 +42,11 @@ def updateGame(game: Game) -> bool:
         print(e)
         return False
     
-# TODO: add the ability to rename games
+def updateGameName(oldName: str, newName: str) -> bool:
+    try:
+        cu.execute("UPDATE Games SET name = ? WHERE name = ?", (newName, oldName))
+        db.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False

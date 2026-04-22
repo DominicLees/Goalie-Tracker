@@ -2,6 +2,7 @@ from tkinter import Button, Frame
 from components.main import Main
 from utils.db import *
 
+# TODO: docstrings
 class Sidebar(Frame):
     main: Main
 
@@ -22,3 +23,19 @@ class Sidebar(Frame):
         # Create new sidebar button
         self.createGameButton(name)
         self.main.openGame(name)
+
+    def renameGame(self, newName: str):
+        if len(newName) == 0:
+            return
+        oldName = self.main.game.name
+        # Save to db
+        success = updateGameName(oldName, newName)
+        if not success:
+            return
+        
+        # Update button text
+        for button in self.winfo_children():
+            if button.cget("text") == oldName:
+                button.configure(text=newName)
+        
+        self.main.openGame(newName)
