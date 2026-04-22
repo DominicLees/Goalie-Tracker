@@ -1,13 +1,21 @@
 from tkinter import Button, Entry, Frame, Label
 from utils.db import *
 
-# TODO: docstrings
 class Main(Frame):
+    """The main frame that contains the form to modify game data. Displayed to the right of the sidebar."""
+    
     output: Label | None = None
 
     def openGame(self, name: str):
+        """Opens the edit game screen in the main area of the window
+
+        Args:
+            name (str): The name of the game in the db
+        """
         # Retrieve data from db
         self.game = getGame(name)
+        if self.game == None:
+            return
 
         # Clear main area
         for child in self.winfo_children():
@@ -52,6 +60,7 @@ class Main(Frame):
         reset.grid(row=3, column=1)
 
     def saveGame(self):
+        """Saves the currently opened game to the db"""
         if self.game == None:
             return
         # Save game data to db
@@ -62,6 +71,11 @@ class Main(Frame):
             self.setOutputMsg("Failed to update game")
 
     def setOutputMsg(self, msg: str):
+        """Creates a label at the bottom of the main area
+
+        Args:
+            msg (str): The text to display
+        """
         if self.output == None or not self.output.winfo_exists():
             self.output = Label(self)
             self.output.grid(row=self.grid_size()[0] + 1, columnspan=2)
@@ -69,11 +83,21 @@ class Main(Frame):
         self.output.configure(text=msg)
 
     def calcSaves(self):
+        """Updates the save count and save percentage labels"""
+        # TODO: Move save and savePct calc to methods of game class
         saves = int(self.game.shots - self.game.goals)
         self.saves.configure(text=str(saves))
         self.savePct.configure(text=f"{saves / self.game.shots:.3f}")
 
     def validateShots(self, newValue: str) -> bool:
+        """Validate command for shots against entry
+
+        Args:
+            newValue (str): The new contents of the entry being validated
+
+        Returns:
+            bool: True if the new input was accepted, False the entry content will stay the same
+        """
         if newValue == "":
             return True
         try:
@@ -87,6 +111,14 @@ class Main(Frame):
         return False
     
     def validateGoals(self, newValue: str) -> bool:
+        """Validate command for goals against entry
+
+        Args:
+            newValue (str): The new contents of the entry being validated
+
+        Returns:
+            bool: True if the new input was accepted, False the entry content will stay the same
+        """
         if newValue == "":
             return True
         try:
