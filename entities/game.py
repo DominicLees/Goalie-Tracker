@@ -20,7 +20,7 @@ class Game:
         return self.name
     
     def getSaves(self) -> int:
-        return self.shots - self.goals
+        return max(self.shots - self.goals, 0)
     
     def getSavePct(self) -> float:
         if self.shots == 0:
