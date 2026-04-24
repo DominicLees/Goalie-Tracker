@@ -10,7 +10,7 @@ root.title("Goalie Tracker")
 root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 tabs = Notebook(root)
 
-# Create main area
+# Create main tab
 gamesTab = Frame(tabs)
 main = Main(gamesTab)
 main.grid(row=0, column=1, columnspan=4)
@@ -23,9 +23,9 @@ sidebar.place(relwidth=0.2, relheight=1)
 sidebar.main = main
 
 # Create trends tab
-trendsTab = Frame(tabs)
+trendsTab = Trends(tabs)
 
-# Add tabs
+# Create tab buttons
 tabs.add(gamesTab, text="Games")
 tabs.add(trendsTab, text="Trends")
 tabs.pack(expand=True, fill="both")
