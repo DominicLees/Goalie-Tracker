@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from components import *
-from utils.db import *
+from utils import *
 
 # Create root
 root = Tk()
@@ -41,6 +41,7 @@ root.bind("<Command-n>", lambda self: NewGameWindow(sidebar.newGame))
 # Rename Game
 file.add_command(label ="Rename Game", accelerator="Cmd+R", command=lambda: NewGameWindow(sidebar.renameGame, main.game.name, "Rename Game"), state="disabled")
 root.bind("<Command-r>", lambda self: NewGameWindow(sidebar.renameGame, main.game.name, "Rename Game"))
+# TODO: Add delete game command
 root.config(menu = menubar)
 
 # Populate sidebar
@@ -52,4 +53,5 @@ if (len(games) > 0):
     main.openGame(games[0][0])
 del games
 
+initStyle()
 root.mainloop()
