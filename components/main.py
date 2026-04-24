@@ -1,4 +1,4 @@
-from tkinter import Button, Entry, Frame, Label, Menu
+from tkinter import Button, Entry, Frame, Label, Menu, Misc
 from utils.db import *
 
 class Main(Frame):
@@ -6,6 +6,10 @@ class Main(Frame):
     
     output: Label | None = None
     fileMenu: Menu
+
+    def __init__(self, root: Misc):
+        super().__init__(root)
+        Label(self, text="Press Cmd+N to create a new game").place(relx=0.5, rely=0.5, anchor="center")
 
     def openGame(self, name: str):
         """Opens the edit game screen in the main area of the window
