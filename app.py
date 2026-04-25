@@ -28,6 +28,7 @@ trendsTab = Trends(tabs)
 # Create tab buttons
 tabs.add(gamesTab, text="Games")
 tabs.add(trendsTab, text="Trends")
+tabs.bind("<<NotebookTabChanged>>", trendsTab.refresh)
 tabs.pack(expand=True, fill="both")
 
 # Create menu bar
