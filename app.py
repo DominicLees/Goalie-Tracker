@@ -20,6 +20,7 @@ main.place(relx=0.2, relwidth=0.8, relheight=1)
 sidebar = Sidebar(gamesTab, highlightthickness=1, highlightbackground="black")
 sidebar.grid(row=0, column=0)
 sidebar.place(relwidth=0.2, relheight=1)
+sidebar.columnconfigure(0, weight=1)
 sidebar.main = main
 
 # Create trends tab
