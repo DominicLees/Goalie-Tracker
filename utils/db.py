@@ -92,3 +92,20 @@ def updateGameName(oldName: str, newName: str) -> bool:
     except Exception as e:
         print(e)
         return False
+    
+def deleteGame(name: str) -> bool:
+    """Deletes game from the database.
+
+    Args:
+        name (str): The name of the game in the database to delete
+
+    Returns:
+        bool: True if delete was successful, otherwise false
+    """
+    try:
+        cu.execute("DELETE FROM Games WHERE name = ?", (name,))
+        db.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False

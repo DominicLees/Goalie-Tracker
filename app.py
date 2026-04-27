@@ -43,7 +43,9 @@ root.bind("<Command-n>", lambda self: NewGameWindow(sidebar.newGame))
 # Rename Game
 file.add_command(label ="Rename Game", accelerator="Cmd+R", command=lambda: NewGameWindow(sidebar.renameGame, main.game.name, "Rename Game"), state="disabled")
 root.bind("<Command-r>", lambda self: NewGameWindow(sidebar.renameGame, main.game.name, "Rename Game"))
-# TODO: Add delete game command
+# Delete game
+file.add_command(label ="Delete Game", accelerator="Cmd+D", command=sidebar.deleteGame, state="disabled")
+root.bind("<Command-d>", sidebar.deleteGame)
 root.config(menu = menubar)
 
 # Populate sidebar

@@ -37,5 +37,24 @@ class Sidebar(Frame):
         for button in self.winfo_children():
             if button.cget("text") == oldName:
                 button.configure(text=newName)
+                break
         
         self.main.openGame(newName)
+
+    def deleteGame(self, entry=None):
+        if self.main.game == None:
+            return
+
+        success = deleteGame(self.main.game.name)
+        if not success:
+            return
+        
+        for button in self.winfo_children():
+            if button.cget("text") == self.main.game.name:
+                button.destroy()
+                break
+        
+        self.main.empty()
+        # Disable Menu bar
+        self.main.fileMenu.entryconfig("Rename Game", state="disabled")
+        self.main.fileMenu.entryconfig("Delete Game", state="disabled")

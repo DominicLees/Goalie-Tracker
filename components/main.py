@@ -65,6 +65,7 @@ class Main(Frame):
 
         # Enable menu bar
         self.fileMenu.entryconfig("Rename Game", state="active")
+        self.fileMenu.entryconfig("Delete Game", state="active")
 
     def saveGame(self):
         """Saves the currently opened game to the db"""
