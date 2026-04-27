@@ -9,7 +9,7 @@ class Main(Frame):
 
     def __init__(self, root: Misc):
         super().__init__(root)
-        Label(self, text="Press Cmd+N to create a new game").place(relx=0.5, rely=0.5, anchor="center")
+        self.empty()
 
     def openGame(self, name: str):
         """Opens the edit game screen in the main area of the window
@@ -23,8 +23,7 @@ class Main(Frame):
             return
 
         # Clear main area
-        for child in self.winfo_children():
-            child.destroy()
+        self.clear()
 
         # Create page title
         label = Label(self, text=self.game.name, anchor="center")
@@ -89,6 +88,17 @@ class Main(Frame):
             self.output.grid(row=self.grid_size()[0] + 1, columnspan=2)
 
         self.output.configure(text=msg)
+
+    def clear(self):
+        """Destroys all child widgets"""
+        for child in self.winfo_children():
+            child.destroy()
+
+    def empty(self):
+        """Clears the current contents of main and creates a label containing a tip"""
+        self.clear()
+        self.game = None
+        Label(self, text="Press Cmd+N to create a new game").place(relx=0.5, rely=0.5, anchor="center")
 
     def calcSaves(self):
         """Updates the save count and save percentage labels"""
