@@ -6,6 +6,8 @@ class Main(Frame):
     
     output: Label | None = None
     fileMenu: Menu
+    saves: Entry | None = None
+    savePct: Entry | None = None
 
     def __init__(self, root: Misc):
         super().__init__(root)
@@ -29,18 +31,6 @@ class Main(Frame):
         label = Label(self, text=self.game.name, anchor="center")
         label.grid(row=0, columnspan=4)
 
-        # Create shots against entry box
-        Label(self, text="Shots against").grid(row=1)
-        self.shots = Entry(self, validate="key")
-        self.shots.insert(0, str(self.game.shots))
-        self.shots.grid(row=1, column=1)
-
-        # Create goals conceded entry box
-        Label(self, text="Goals conceded").grid(row=1, column=2)
-        self.goals = Entry(self, validate="key")
-        self.goals.insert(0, str(self.game.goals))
-        self.goals.grid(row=1, column=3)
-
         # Create saves and save percentage labels
         Label(self, text="Saves: ").grid(row=2)
         self.saves = Label(self, text="0")
@@ -48,12 +38,18 @@ class Main(Frame):
         Label(self, text="Save percentage: ").grid(row=2, column=2)
         self.savePct = Label(self, text="0%")
         self.savePct.grid(row=2, column=3)
-        if self.game.goals > 0:
-            self.calcSaves()
-        
-        # Add validation commands
-        self.shots.configure(validatecommand=(self.register(self.validateShots), "%P"))
-        self.goals.configure(validatecommand=(self.register(self.validateGoals), "%P"))
+
+        # Create shots against entry box
+        Label(self, text="Shots against").grid(row=1)
+        self.shots = Entry(self, validate="key", validatecommand=(self.register(self.validateShots), "%P"))
+        self.shots.insert(0, str(self.game.shots))
+        self.shots.grid(row=1, column=1)
+
+        # Create goals conceded entry box
+        Label(self, text="Goals conceded").grid(row=1, column=2)
+        self.goals = Entry(self, validate="key", validatecommand=(self.register(self.validateGoals), "%P"))
+        self.goals.insert(0, str(self.game.goals))
+        self.goals.grid(row=1, column=3)
 
         # Create save button
         save = Button(self, text="Save", command=self.saveGame)
@@ -103,6 +99,8 @@ class Main(Frame):
 
     def calcSaves(self):
         """Updates the save count and save percentage labels"""
+        if self.saves == None or self.savePct == None:
+            return
         self.saves.configure(text=str(self.game.getSaves()))
         self.savePct.configure(text=f"{self.game.getSavePct():.3f}")
 
