@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter.ttk import *
 from components import *
 from utils import *
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 # Create root
 root = Tk()

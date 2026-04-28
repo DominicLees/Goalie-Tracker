@@ -1,5 +1,8 @@
 from tkinter import Button, Entry, Frame, Label, Menu, Misc
 from utils.db import *
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Main(Frame):
     """The main frame that contains the form to modify game data. Displayed to the right of the sidebar."""
@@ -121,8 +124,10 @@ class Main(Frame):
                 self.game.shots = shots
                 self.calcSaves()
                 return True
+        except ValueError as e:
+            logger.debug(e)
         except Exception as e:
-            print(e)
+            logger.exception(e)
         return False
     
     def validateGoals(self, newValue: str) -> bool:
@@ -142,6 +147,8 @@ class Main(Frame):
                 self.game.goals = goals
                 self.calcSaves()
                 return True
+        except ValueError as e:
+            logger.debug(e)
         except Exception as e:
-            print(e)
+            logger.exception(e)
         return False
