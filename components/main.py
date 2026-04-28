@@ -17,13 +17,13 @@ class Main(Frame):
         Args:
             name (str): The name of the game in the db
         """
+        # Clear main area
+        self.clear()
+
         # Retrieve data from db
         self.game = getGame(name)
         if self.game == None:
             return
-
-        # Clear main area
-        self.clear()
 
         # Create page title
         label = Label(self, text=self.game.name, anchor="center")
@@ -92,13 +92,13 @@ class Main(Frame):
 
     def clear(self):
         """Destroys all child widgets"""
+        self.game = None
         for child in self.winfo_children():
             child.destroy()
 
     def empty(self):
         """Clears the current contents of main and creates a label containing a tip"""
         self.clear()
-        self.game = None
         Label(self, text="Press Cmd+N to create a new game").place(relx=0.5, rely=0.5, anchor="center")
 
     def calcSaves(self):
