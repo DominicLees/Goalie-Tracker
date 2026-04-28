@@ -1,8 +1,11 @@
 import sqlite3
 from typing import Tuple
 from entities.game import Game
+import logging
 
 type GameRecords = list[Tuple[str, int, int]]
+
+logger = logging.getLogger(__name__)
 
 # Create database file if it does not exist
 db = sqlite3.connect("data")
@@ -25,7 +28,12 @@ def getAllGames(fields="*") -> GameRecords:
     Returns:
         GameRecords: Returns all records in a list of tuples.
     """
-    return cu.execute("SELECT {0} FROM Games".format(fields)).fetchall()
+    logger.info("Retrieving '{0}' fields for all game records".format(fields))
+    try:
+        return cu.execute("SELECT {0} FROM Games".format(fields)).fetchall()
+    except Exception as e:
+        logger.exception(e)
+
 
 def getGame(name: str) -> Game | None:
     """Retrieves a game from the database from its name
@@ -36,6 +44,7 @@ def getGame(name: str) -> Game | None:
     Returns:
         Game | None: If the game was found returns a Game object, otherwise returns None
     """
+    logger.info("Retrieving '{0}' from Games table".format(name))
     cu.execute("Select * FROM Games WHERE name = ?", (name,))
     result = cu.fetchone()
     if result == None:
@@ -51,14 +60,16 @@ def insertNewGame(name: str) -> bool:
     Returns:
         bool: True if insert was successful, otherwise false
     """
+    logger.info("Inserting '{0}' into Games table".format(name))
     if getGame(name) != None:
+        logger.debug("'{0}' already exists in Games table")
         return False
     try:
         cu.execute("INSERT INTO Games(name) VALUES (?)", (name,))
         db.commit()
         return True
     except Exception as e:
-        print(e)
+        logger.exception(e)
         return False
 
 def updateGame(game: Game) -> bool:
@@ -70,12 +81,13 @@ def updateGame(game: Game) -> bool:
     Returns:
         bool: True if update was successful, otherwise false
     """
+    logger.info("Updating '{0}' in Games table".format(game.name))
     try:
         cu.execute("UPDATE Games SET shots = ?, goals = ? WHERE name = ?", (game.shots, game.goals, game.name))
         db.commit()
         return True
     except Exception as e:
-        print(e)
+        logger.exception(e)
         return False
     
 def updateGameName(oldName: str, newName: str) -> bool:
@@ -88,12 +100,13 @@ def updateGameName(oldName: str, newName: str) -> bool:
     Returns:
         bool: True if update was successful, otherwise false
     """
+    logger.info("Changing '{0}' name to '{1}' in Games table".format(oldName, newName))
     try:
         cu.execute("UPDATE Games SET name = ? WHERE name = ?", (newName, oldName))
         db.commit()
         return True
     except Exception as e:
-        print(e)
+        logger.exception(e)
         return False
     
 def deleteGame(name: str) -> bool:
@@ -105,10 +118,11 @@ def deleteGame(name: str) -> bool:
     Returns:
         bool: True if delete was successful, otherwise false
     """
+    logger.info("Deleting '{0}' from Games table".format(name))
     try:
         cu.execute("DELETE FROM Games WHERE name = ?", (name,))
         db.commit()
         return True
     except Exception as e:
-        print(e)
+        logger.exception(e)
         return False
