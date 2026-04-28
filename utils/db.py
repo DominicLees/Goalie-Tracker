@@ -1,5 +1,8 @@
 import sqlite3
+from typing import Tuple
 from entities.game import Game
+
+type GameRecords = list[Tuple[str, int, int]]
 
 # Create database file if it does not exist
 db = sqlite3.connect("data")
@@ -13,14 +16,14 @@ db.commit()
 
 # Database functions
 
-def getAllGames(fields="*"):
+def getAllGames(fields="*") -> GameRecords:
     """Retrieves all games from the database.
 
     Args:
         fields (str, optional): Which fields to get. Defaults to "*".
 
     Returns:
-        List[Tuple[str]]: Returns all records in a list of tuples.
+        GameRecords: Returns all records in a list of tuples.
     """
     return cu.execute("SELECT {0} FROM Games".format(fields)).fetchall()
 
