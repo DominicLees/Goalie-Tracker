@@ -14,6 +14,7 @@ class Main(Frame):
 
     def __init__(self, root: Misc):
         super().__init__(root)
+        self.columnconfigure([0, 1, 2, 3], weight=1)
         self.empty()
 
     def openGame(self, name: str):
@@ -31,28 +32,28 @@ class Main(Frame):
             return
 
         # Create page title
-        label = Label(self, text=self.game.name, anchor="center")
+        label = Label(self, text=self.game.name, anchor="center", font=('URW Gothic L','24','bold'))
         label.grid(row=0, columnspan=4)
 
         # Create saves and save percentage labels
-        Label(self, text="Saves: ").grid(row=2)
+        Label(self, text="Saves: ").grid(row=2, sticky="e")
         self.saves = Label(self, text="0")
-        self.saves.grid(row=2, column=1)
-        Label(self, text="Save percentage: ").grid(row=2, column=2)
+        self.saves.grid(row=2, column=1, sticky="w")
+        Label(self, text="Save percentage: ").grid(row=2, column=2, sticky="e")
         self.savePct = Label(self, text="0%")
-        self.savePct.grid(row=2, column=3)
+        self.savePct.grid(row=2, column=3, sticky="w")
 
         # Create shots against entry box
-        Label(self, text="Shots against").grid(row=1)
+        Label(self, text="Shots against").grid(row=1, sticky="e")
         self.shots = Entry(self, validate="key", validatecommand=(self.register(self.validateShots), "%P"))
         self.shots.insert(0, str(self.game.shots))
-        self.shots.grid(row=1, column=1)
+        self.shots.grid(row=1, column=1, sticky="w")
 
         # Create goals conceded entry box
-        Label(self, text="Goals conceded").grid(row=1, column=2)
+        Label(self, text="Goals conceded").grid(row=1, column=2, sticky="e")
         self.goals = Entry(self, validate="key", validatecommand=(self.register(self.validateGoals), "%P"))
         self.goals.insert(0, str(self.game.goals))
-        self.goals.grid(row=1, column=3)
+        self.goals.grid(row=1, column=3, sticky="w")
 
         # Create save button
         save = Button(self, text="Save", command=self.saveGame)
