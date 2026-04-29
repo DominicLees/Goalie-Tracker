@@ -49,11 +49,16 @@ class Sidebar(Frame):
         if not success:
             return
         
+        # Delete game button from sidebar
         for button in self.winfo_children():
             if button.cget("text") == self.main.game.name:
                 button.destroy()
                 break
-        
+
+        # Reassign grid rows to game buttons
+        for i, button in enumerate(self.winfo_children()):
+            button.grid(row=i)
+     
         self.main.empty()
         # Disable Menu bar
         self.main.fileMenu.entryconfig("Rename Game", state="disabled")
