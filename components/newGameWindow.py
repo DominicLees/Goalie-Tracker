@@ -11,6 +11,7 @@ class NewGameWindow(Toplevel):
             title (str, optional): Title of the window. Defaults to "New Game".
         """
         super().__init__()
+        self.attributes('-topmost','true')
         self.cb = cb
         self.wm_title(title)
 
