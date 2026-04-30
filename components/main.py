@@ -1,4 +1,5 @@
 from tkinter import Button, Entry, Frame, Label, Menu, Misc
+from tkcalendar import Calendar
 from utils.db import *
 import logging
 
@@ -55,13 +56,17 @@ class Main(Frame):
         self.goals.insert(0, str(self.game.goals))
         self.goals.grid(row=1, column=3, sticky="w")
 
+        # Create date picker
+        self.date = Calendar(self, selectmode="day")
+        self.date.grid(row=3, columnspan=2)
+
         # Create save button
         save = Button(self, text="Save", command=self.saveGame)
-        save.grid(row=3)
+        save.grid(row=4)
 
         # Create reset button
         reset = Button(self, text="Reset", command=lambda: self.openGame(name))
-        reset.grid(row=3, column=1)
+        reset.grid(row=4, column=1)
 
         # Enable menu bar
         self.fileMenu.entryconfig("Rename Game", state="active")
