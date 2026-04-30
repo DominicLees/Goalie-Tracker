@@ -57,7 +57,7 @@ class Main(Frame):
         self.goals.grid(row=1, column=3, sticky="w")
 
         # Create date picker
-        self.date = Calendar(self, selectmode="day")
+        self.date = Calendar(self, selectmode="day", year=int(self.game.date[:4]), month=int(self.game.date[5:7]), day=int(self.game.date[8:10]))
         self.date.grid(row=3, columnspan=2)
 
         # Create save button
@@ -76,6 +76,8 @@ class Main(Frame):
         """Saves the currently opened game to the db"""
         if self.game == None:
             return
+        # Update game instance
+        self.game.date = self.date.selection_get().strftime("%Y-%m-%d")
         # Save game data to db
         success = updateGame(self.game)
         if success:

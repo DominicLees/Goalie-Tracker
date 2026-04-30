@@ -1,9 +1,11 @@
 from typing import Tuple, overload
+from datetime import datetime
 
 class Game:
     name: str
-    shots = 0
-    goals = 0
+    shots: int = 0
+    goals: int = 0
+    date: str = datetime.now().strftime("%Y-%m-%d")
 
     @overload
     def __init__(self, name: str): ...
@@ -15,6 +17,7 @@ class Game:
         self.name = record[0]
         self.shots = int(record[1])
         self.goals = int(record[2])
+        self.date = record[3]
 
     def __str__(self):
         return self.name
