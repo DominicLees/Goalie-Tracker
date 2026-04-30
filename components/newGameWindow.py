@@ -4,6 +4,12 @@ from typing import Callable
 class NewGameWindow(Toplevel):
     """Window used to get a name for a game from the user"""
     def __init__(self, cb: Callable[[str], None], text="", title="New Game"):
+        """
+        Args:
+            cb (Callable[[str], None]): Callback function. Called after the user submits a name.
+            text (str, optional): Default contents of the name Entry. Defaults to "".
+            title (str, optional): Title of the window. Defaults to "New Game".
+        """
         super().__init__()
         self.cb = cb
         self.wm_title(title)
