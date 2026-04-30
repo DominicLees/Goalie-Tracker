@@ -1,7 +1,8 @@
-from tkinter import Button, Entry, Toplevel
+from tkinter import Button, Entry, Event, Toplevel
 from typing import Callable
 
 class NewGameWindow(Toplevel):
+    """Window used to get a name for a game from the user"""
     def __init__(self, cb: Callable[[str], None], text="", title="New Game"):
         super().__init__()
         self.cb = cb
@@ -18,7 +19,12 @@ class NewGameWindow(Toplevel):
         submit = Button(self, text="Submit", command=self.submit)
         submit.grid(row=0, column=1)
 
-    def submit(self, entry=None):
+    def submit(self, entry: Event=None):
+        """Submit event handler
+
+        Args:
+            entry (Event, optional): Event object passed by bind(), not used. Defaults to None.
+        """
         name = self.newGameTextbox.get()
         if len(name) == 0:
             return
