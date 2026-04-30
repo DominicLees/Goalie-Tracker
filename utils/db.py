@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 from typing import Tuple
 from entities.game import Game
 import logging
@@ -12,8 +13,9 @@ db = sqlite3.connect("data")
 cu = db.cursor()
 cu.execute("""CREATE TABLE IF NOT EXISTS Games(
     name, 
-    shots DEFAULT 0,
-    goals DEFAULT 0
+    shots int DEFAULT 0,
+    goals int DEFAULT 0,
+    date
 )""")
 db.commit()
 
@@ -65,7 +67,7 @@ def insertNewGame(name: str) -> bool:
         logger.debug("'{0}' already exists in Games table")
         return False
     try:
-        cu.execute("INSERT INTO Games(name) VALUES (?)", (name,))
+        cu.execute("INSERT INTO Games(name, date) VALUES (?,?)", (name,datetime.now().strftime("%Y-%m-%d")))
         db.commit()
         return True
     except Exception as e:
@@ -83,7 +85,7 @@ def updateGame(game: Game) -> bool:
     """
     logger.info("Updating '{0}' in Games table".format(game.name))
     try:
-        cu.execute("UPDATE Games SET shots = ?, goals = ? WHERE name = ?", (game.shots, game.goals, game.name))
+        cu.execute("UPDATE Games SET shots = ?, goals = ?, date = ? WHERE name = ?", (game.shots, game.goals, game.date, game.name))
         db.commit()
         return True
     except Exception as e:
