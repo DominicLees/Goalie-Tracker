@@ -29,10 +29,7 @@ def average(values: GameRecords, pos: int) -> float:
     recordCount = len(values)
     if recordCount < 1:
         return 0
-    total = 0
-    for game in values:
-        total += game[pos]
-    return total / len(values)
+    return total(values, pos) / len(values)
 
 class Trends(Frame):
     """The trends tab that displays data calculated from all of the logged games"""
