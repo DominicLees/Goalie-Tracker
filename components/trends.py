@@ -1,4 +1,4 @@
-from tkinter import Event, Frame, Label
+from tkinter import Event, Frame, Label, Misc
 from utils.db import GameRecords, getAllGames
 
 def total(values: GameRecords, pos: int) -> int:
@@ -34,6 +34,10 @@ def average(values: GameRecords, pos: int) -> float:
 class Trends(Frame):
     """The trends tab that displays data calculated from all of the logged games"""
 
+    def __init__(self, root: Misc):
+        super().__init__(root)
+        self.columnconfigure([0, 1], weight=1)
+
     def refresh(self, event: Event):
         """Function called every time the user switches tabs. When the trends tab is selected the contents of the games table is retrieved from the database and the tab is populated.
 
@@ -51,8 +55,24 @@ class Trends(Frame):
         for child in self.winfo_children():
             child.destroy()
         
-        # Calculate averages
+        # Calculate totals
         games = getAllGames()
-        Label(self, text="{0} games logged".format(len(games))).grid()
-        Label(self, text="Average shots against: {0}".format(average(games, 1))).grid(row=1)
-        Label(self, text="Average goals against: {0}".format(average(games, 2))).grid(row=2)
+        totalShots = total(games, 1)
+        totalGoals = total(games, 2)
+        # Calculate averages
+        averageShots = average(games, 1)
+        averageGoals = average(games, 2)
+        averageSaves = averageShots - averageGoals
+        
+        # Create total games label
+        Label(self, text="{0} games logged".format(len(games))).grid(columnspan=2)
+        
+        # Create averages labels
+        Label(self, text="Average shots against per game: {0}".format(averageShots)).grid(row=1)
+        Label(self, text="Average goals against per game: {0}".format(averageGoals)).grid(row=2)
+        Label(self, text="Average saves per game: {0}".format(averageSaves)).grid(row=3)
+
+        # Create totals labels
+        Label(self, text="Total shots against: {0}".format(totalShots)).grid(row=1, column=1)
+        Label(self, text="Total goals against: {0}".format(totalGoals)).grid(row=2, column=1)
+        Label(self, text="Total saves: {0}".format(totalShots - totalGoals)).grid(row=3, column=1)
