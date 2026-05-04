@@ -1,8 +1,23 @@
 from tkinter import Event, Frame, Label
 from utils.db import GameRecords, getAllGames
 
+def total(values: GameRecords, pos: int) -> int:
+    """Finds the total value of a specific index in a list of tuples.
+
+    Args:
+        values (GameRecords): A list of tuples representing game data.
+        pos (int): The position in the tuples to find the average of.
+
+    Returns:
+        int: The total value found.
+    """
+    total = 0
+    for game in values:
+        total += game[pos]
+    return total
+
 def average(values: GameRecords, pos: int) -> float:
-    """Finds the average value of a specific position in a list of tuples.
+    """Finds the average value of a specific index in a list of tuples.
 
     Args:
         values (GameRecords): A list of tuples representing game data.
@@ -35,9 +50,11 @@ class Trends(Frame):
         if tab_text != "Trends":
             return
         
+        # Clear existing widgets
         for child in self.winfo_children():
             child.destroy()
         
+        # Calculate averages
         games = getAllGames()
         Label(self, text="{0} games logged".format(len(games))).grid()
         Label(self, text="Average shots against: {0}".format(average(games, 1))).grid(row=1)
