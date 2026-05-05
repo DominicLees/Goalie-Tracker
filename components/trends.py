@@ -129,6 +129,11 @@ class Trends(Frame):
         graph = fig.add_subplot()
         graph.plot(x, y)
 
+        # Label data points
+        graph.set_xticks(x, list(map(lambda game: "{0}\n{1}".format(game[0], game[3]), self.games)))
+        for xy in zip(x, y):
+            graph.annotate(xy[1], xy=xy)
+
         # Placing the graph in the window
         canvas = FigureCanvasTkAgg(fig, tab_frame)  
         canvas.draw()
