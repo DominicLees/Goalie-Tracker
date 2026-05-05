@@ -109,21 +109,17 @@ class Trends(Frame):
         fig = Figure(figsize = (10, 5), dpi = 100)
 
         # Get coordinates
-        x = []
+        x = [i+1 for i in range(len(self.games))]
         y = []
         match tab_text:
             case "Shots Against":
                 y = list(map(lambda game: game[1], self.games))
-                x = [i+1 for i in range(len(self.games))]
             case "Goals Against":
                 y = list(map(lambda game: game[2], self.games))
-                x = [i+1 for i in range(len(self.games))]
             case "Saves":
                 y = list(map(lambda game: game[1] - game[2], self.games))
-                x = [i+1 for i in range(len(self.games))]
             case "Save%":
                 y = list(map(lambda game: ((game[1] - game[2]) / game[1]), self.games))
-                x = [i+1 for i in range(len(self.games))]
         
         # Plot the graph
         graph = fig.add_subplot()
