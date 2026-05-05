@@ -1,4 +1,6 @@
 from tkinter import Event, Frame, Label, Misc
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from utils.db import GameRecords, getAllGames
 
 def total(values: GameRecords, pos: int) -> int:
@@ -55,8 +57,10 @@ class Trends(Frame):
         for child in self.winfo_children():
             child.destroy()
         
-        # Calculate totals
+        # Get all games and sort by date
         games = getAllGames()
+        games.sort(key=lambda game: game[3])
+        # Calculate totals
         totalShots = total(games, 1)
         totalGoals = total(games, 2)
         # Calculate averages
@@ -76,3 +80,20 @@ class Trends(Frame):
         Label(self, text="Total shots against: {0}".format(totalShots)).grid(row=1, column=1)
         Label(self, text="Total goals against: {0}".format(totalGoals)).grid(row=2, column=1)
         Label(self, text="Total saves: {0}".format(totalShots - totalGoals)).grid(row=3, column=1)
+
+        # Create the figure that will contain the graph
+        fig = Figure(figsize = (10, 5), dpi = 100)
+
+        # TODO: Add the ability to select different graphs
+        # Get coordinates
+        y = list(map(lambda game: game[1], games))
+        x = [i+1 for i in range(len(games))]
+
+        # Plot the graph
+        graph = fig.add_subplot()
+        graph.plot(x, y)
+
+        # Placing the graph in the window
+        canvas = FigureCanvasTkAgg(fig, master = self)  
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=4, columnspan=2)
